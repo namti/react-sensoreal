@@ -14,18 +14,12 @@ export default meta;
 type Story = StoryObj<typeof Book>;
 
 export const Regular: Story = args => (
-  <div style={ { width: '10rem' } }>
+  <div style={ { width: '30vw' } }>
     <Book { ...args } />
   </div>
 );
 
-Regular.args = {
-  cover: 'https://pictures.abebooks.com/inventory/md/md30869329205.jpg',
-  thickness: '1rem',
-  coverCloseAngle: 0,
-  coverOpenAngle: 10,
-  title: 'Lorem Ipsum',
-};
+Regular.args = { cover: 'https://pictures.abebooks.com/inventory/md/md30869329205.jpg' };
 
 export const CustomCoverAndContent: Story = args => (
   <div style={ { width: '10rem' } }>
@@ -33,12 +27,13 @@ export const CustomCoverAndContent: Story = args => (
   </div>
 );
 CustomCoverAndContent.args = {
-  transitionDuration: '500ms',
-  coverOpenAngle: 45,
-  coverContent: <div style={ { color: '#fff', fontWeight: '900', fontFamily: 'sans-serif' } }>
+  transitionDuration: '400ms',
+  transitionTimingFunction: 'ease-out',
+  coverColor: '#ac7244',
+  coverEndAngle: 45,
+  coverContent: <div style={ { color: 'rgba(255,255,255,.85)', fontWeight: '900', fontFamily: 'sans-serif', filter: 'drop-shadow(0px -1px 0px rgba(0,0,0,.5))' } }>
 		Lorem Ipsum
   </div>,
-  // _pageContent: <div><img src="https://pictures.abebooks.com/inventory/md/md31356128146.jpg" /></div>,
   pageContent: <div style={ { color: '#333', fontSize: '.35rem', padding: '2rem 1rem' } }>
     <div style={ { textAlign: 'center', fontSize: '.75rem', fontWeight: 'bolder' } }>Duis aute</div>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ipsum nunc aliquet bibendum enim facilisis. Orci eu lobortis elementum nibh. Eget felis eget nunc lobortis mattis aliquam faucibus purus. Sit amet aliquam id diam. Tincidunt lobortis feugiat vivamus at augue eget. Id interdum velit laoreet id donec ultrices tincidunt. Tempor id eu nisl nunc mi. Eu augue ut lectus arcu bibendum. In pellentesque massa placerat duis.</p>

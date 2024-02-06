@@ -12,7 +12,7 @@ border-bottom-left-radius: var(--border-radius-left);
 border-top-right-radius: var(--border-radius-right);
 border-bottom-right-radius: var(--border-radius-right);
 
-transition: aspect-ratio ease 150ms;
+// transition: aspect-ratio ease 150ms;
 
 @media (hover: hover) {
   &:hover{
@@ -39,6 +39,7 @@ position: absolute;
 left: 0;
 top: 0;
 transform: translateY(calc(var(--thickness) * -1));
+// transition: transform ease-out 300ms;
 
 border-top-left-radius: var(--border-radius-left);
 border-bottom-left-radius: var(--border-radius-left);
@@ -159,10 +160,10 @@ bottom: var(--cover-margin);
 left: calc(var(--cover-margin) / 2);
 
 &, &>.first-page{
-  border-top-left-radius: calc(var(--border-radius-left) / 2);
-  border-bottom-left-radius: calc(var(--border-radius-left) / 2);
-  border-top-right-radius: calc(var(--border-radius-right) / 2);
-  border-bottom-right-radius: calc(var(--border-radius-right) / 2);
+  border-top-left-radius: calc(var(--border-radius-left) - var(--cover-margin) / 2);
+  border-bottom-left-radius: calc(var(--border-radius-left) - var(--cover-margin) / 2);
+  border-top-right-radius: calc(var(--border-radius-right) - var(--cover-margin) / 2);
+  border-bottom-right-radius: calc(var(--border-radius-right) - var(--cover-margin) / 2);
 }
 
 &>.first-page{
