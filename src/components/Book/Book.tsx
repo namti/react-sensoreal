@@ -45,6 +45,24 @@ const Book: React.FC<PropsWithChildren<BookProps>> = (props): React.JSX.Element 
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 
+  const {
+    cover,
+    leftCornerRadius,
+    rightCornerRadius,
+    thickness,
+    creaseMargin,
+    creaseWidth,
+    coverColor,
+    coverMargin,
+    transitionDuration,
+    transitionTimingFunction,
+    coverStartAngle,
+    coverEndAngle,
+    coverContent,
+    pageContent,
+    ...restProps
+  } = props;
+
   useEffect(() => {
     if(wrapperRef.current){
       const { width, height } = wrapperRef.current.getBoundingClientRect();
@@ -66,12 +84,12 @@ const Book: React.FC<PropsWithChildren<BookProps>> = (props): React.JSX.Element 
   }, []);
 
   useEffect(() => {
-    if (props.cover) {
+    if (cover) {
       setIsCoverLoading(true);
-      getImageSize(props.cover)
+      getImageSize(cover)
         .then(size => {
           setImageRatio((size[0] / size[1]) ?? defaultRatio);
-          setSrc(props.cover || '');
+          setSrc(cover || '');
         })
         .catch(e => {
           console.error('Failed to load the image', e);
@@ -80,7 +98,7 @@ const Book: React.FC<PropsWithChildren<BookProps>> = (props): React.JSX.Element 
           setIsCoverLoading(false);
         });
     }
-  }, [ props.cover ]);
+  }, [ cover ]);
 
   useEffect(() => {
     const argsSkew = [
@@ -98,20 +116,20 @@ const Book: React.FC<PropsWithChildren<BookProps>> = (props): React.JSX.Element 
 
     type args = [number, number, number, number, number];
 
-    if (Number.isFinite(props.coverStartAngle)) {
-      const skew = interpolateNumber(...[ props.coverStartAngle as number, ...argsSkew ] as args);
-      const scale = interpolateNumber(...[ props.coverStartAngle as number, ...argsScale ] as args);
+    if (Number.isFinite(coverStartAngle)) {
+      const skew = interpolateNumber(...[ coverStartAngle as number, ...argsSkew ] as args);
+      const scale = interpolateNumber(...[ coverStartAngle as number, ...argsScale ] as args);
       setTransformSkewStart(skew);
       setTransformScaleStart(scale);
     }
 
-    if (Number.isFinite(props.coverEndAngle)) {
-      const skew = interpolateNumber(...[ props.coverEndAngle as number, ...argsSkew ] as args);
-      const scale = interpolateNumber(...[ props.coverEndAngle as number, ...argsScale ] as args);
+    if (Number.isFinite(coverEndAngle)) {
+      const skew = interpolateNumber(...[ coverEndAngle as number, ...argsSkew ] as args);
+      const scale = interpolateNumber(...[ coverEndAngle as number, ...argsScale ] as args);
       setTransformSkewEnd(skew);
       setTransformScaleEnd(scale);
     }
-  }, [ props.coverStartAngle, props.coverEndAngle ]);
+  }, [ coverStartAngle, coverEndAngle ]);
 
 
   const getImageSize = (url = '') => new Promise<TImageSize>((resolve, reject) => {
@@ -129,25 +147,31 @@ const Book: React.FC<PropsWithChildren<BookProps>> = (props): React.JSX.Element 
 
   return (
     <BookWrapper
-      style={ {
-        'aspectRatio': imageRatio,
-        '--cover-image': `url(${src})`,
+      {
+        ...{
+          ...restProps,
+          style: {
+            ...restProps.style || {},
+            'aspectRatio': imageRatio,
+            '--cover-image': `url(${src})`,
 
-        '--border-radius-left': ((wrapperSize?.width ?? 0) * (_.clamp(props.leftCornerRadius ?? defaults.borderRadiusLeft, 0, props.creaseMargin ?? defaults.creaseMargin))).toFixed(2) + 'px',
-        '--border-radius-right': ((wrapperSize?.width ?? 0) * (props.rightCornerRadius ?? defaults.borderRadiusRight)).toFixed(2) + 'px',
-        '--crease-margin': ((wrapperSize?.width || 0) * (props.creaseMargin ?? defaults.creaseMargin)).toFixed(2) + 'px',
-        '--crease-width': ((wrapperSize?.width || 0) * (props.creaseWidth ?? defaults.creaseWidth)).toFixed(2) + 'px',
-        '--thickness': ((wrapperSize?.height || 0) * (props.thickness ?? defaults.thickness)).toFixed(2) + 'px',
-        '--cover-margin': ((wrapperSize?.width || 0) * (props.coverMargin ?? defaults.coverMargin)).toFixed(2) + 'px',
+            '--border-radius-left': ((wrapperSize?.width ?? 0) * (_.clamp(leftCornerRadius ?? defaults.borderRadiusLeft, 0, creaseMargin ?? defaults.creaseMargin))).toFixed(2) + 'px',
+            '--border-radius-right': ((wrapperSize?.width ?? 0) * (rightCornerRadius ?? defaults.borderRadiusRight)).toFixed(2) + 'px',
+            '--crease-margin': ((wrapperSize?.width || 0) * (creaseMargin ?? defaults.creaseMargin)).toFixed(2) + 'px',
+            '--crease-width': ((wrapperSize?.width || 0) * (creaseWidth ?? defaults.creaseWidth)).toFixed(2) + 'px',
+            '--thickness': ((wrapperSize?.height || 0) * (thickness ?? defaults.thickness)).toFixed(2) + 'px',
+            '--cover-margin': ((wrapperSize?.width || 0) * (coverMargin ?? defaults.coverMargin)).toFixed(2) + 'px',
 
-        '--fallback-color': props.coverColor,
-        '--transition-duration': props.transitionDuration,
-        '--transition-timing-function': props.transitionTimingFunction,
-        '--start-skew': `${transformSkewStart * -1}deg`,
-        '--end-skew': `${transformSkewEnd * -1}deg`,
-        '--start-scale': transformScaleStart,
-        '--end-scale': transformScaleEnd,
-      } as React.CSSProperties }
+            '--fallback-color': coverColor,
+            '--transition-duration': transitionDuration,
+            '--transition-timing-function': transitionTimingFunction,
+            '--start-skew': `${transformSkewStart * -1}deg`,
+            '--end-skew': `${transformSkewEnd * -1}deg`,
+            '--start-scale': transformScaleStart,
+            '--end-scale': transformScaleEnd,
+          } as React.CSSProperties,
+        }
+      }
       ref={ wrapperRef }
     >
       <FrontCover className="cover">
@@ -156,8 +180,8 @@ const Book: React.FC<PropsWithChildren<BookProps>> = (props): React.JSX.Element 
           <div className="left-part" />
           <div className="right-part">
             {
-              props.coverContent && <div className="content">
-                { props.coverContent }
+              coverContent && <div className="content">
+                { coverContent }
               </div>
             }
           </div>
@@ -167,8 +191,8 @@ const Book: React.FC<PropsWithChildren<BookProps>> = (props): React.JSX.Element 
       <Pages>
         <div className="first-page">
           {
-            props.pageContent && <div className="content">
-              { props.pageContent }
+            pageContent && <div className="content">
+              { pageContent }
             </div>
           }
         </div>

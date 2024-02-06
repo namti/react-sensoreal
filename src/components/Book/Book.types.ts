@@ -1,6 +1,6 @@
 import React from 'react';
 
-export interface BookProps {
+export interface BookProps extends React.FC {
 	/**
 	 * Cover image URL
 	 */
@@ -47,6 +47,7 @@ export interface BookProps {
 	coverEndAngle?: number;
 	coverContent?: React.JSX.Element | React.JSX.Element[];
 	pageContent?: React.JSX.Element | React.JSX.Element[];
+	style?: React.CSSProperties;
 }
 
 export type TransitionDuration = `${number}ms` | `${number}s`;
