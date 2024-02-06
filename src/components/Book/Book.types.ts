@@ -27,7 +27,7 @@ export interface BookProps {
 	 */
 	thickness?: number;
 	/**
-	 * Cover margin, relative to the height of the book. `0` - `1`
+	 * Cover margin, relative to the width of the book. `0` - `1`
 	 */
 	coverMargin?: number;
 

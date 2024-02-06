@@ -138,7 +138,7 @@ const Book: React.FC<PropsWithChildren<BookProps>> = (props): React.JSX.Element 
         '--crease-margin': ((wrapperSize?.width || 0) * (props.creaseMargin ?? defaults.creaseMargin)).toFixed(2) + 'px',
         '--crease-width': ((wrapperSize?.width || 0) * (props.creaseWidth ?? defaults.creaseWidth)).toFixed(2) + 'px',
         '--thickness': ((wrapperSize?.height || 0) * (props.thickness ?? defaults.thickness)).toFixed(2) + 'px',
-        '--cover-margin': ((wrapperSize?.height || 0) * (props.coverMargin ?? defaults.coverMargin)).toFixed(2) + 'px',
+        '--cover-margin': ((wrapperSize?.width || 0) * (props.coverMargin ?? defaults.coverMargin)).toFixed(2) + 'px',
 
         '--fallback-color': props.coverColor,
         '--transition-duration': props.transitionDuration,
